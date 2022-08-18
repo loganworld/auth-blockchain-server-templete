@@ -1,0 +1,69 @@
+[
+    {
+        "id": 0,
+        "name": "tank1",
+        "health": 100,
+        "fireRate": 20,
+        "firePower": 5,
+        "speed": 9.5,
+        "healthAdd": 5,
+        "fireRateAdd": 1,
+        "firePowerAdd": 0.1,
+        "speedAdd": 0.3
+    },{
+        "id": 1,
+        "name": "tank1",
+        "health": 100,
+        "fireRate": 20,
+        "firePower": 5,
+        "speed": 9.5,
+        "healthAdd": 5,
+        "fireRateAdd": 1,
+        "firePowerAdd": 0.1,
+        "speedAdd": 0.3
+    },{
+        "id": 2,
+        "name": "tank1",
+        "health": 100,
+        "fireRate": 20,
+        "firePower": 5,
+        "speed": 9.5,
+        "healthAdd": 5,
+        "fireRateAdd": 1,
+        "firePowerAdd": 0.1,
+        "speedAdd": 0.3
+    },{
+        "id": 3,
+        "name": "tank1",
+        "health": 100,
+        "fireRate": 20,
+        "firePower": 5,
+        "speed": 9.5,
+        "healthAdd": 5,
+        "fireRateAdd": 1,
+        "firePowerAdd": 0.1,
+        "speedAdd": 0.3
+    },{
+        "id": 4,
+        "name": "tank1",
+        "health": 100,
+        "fireRate": 20,
+        "firePower": 5,
+        "speed": 9.5,
+        "healthAdd": 5,
+        "fireRateAdd": 1,
+        "firePowerAdd": 0.1,
+        "speedAdd": 0.3
+    },{
+        "id": 5,
+        "name": "tank1",
+        "health": 100,
+        "fireRate": 20,
+        "firePower": 5,
+        "speed": 9.5,
+        "healthAdd": 5,
+        "fireRateAdd": 1,
+        "firePowerAdd": 0.1,
+        "speedAdd": 0.3
+    }
+]
