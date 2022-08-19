@@ -1,3 +1,6 @@
+// by Logan <https://github.com/loganworld>
+// at 19/08/2022
+
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
@@ -19,6 +22,10 @@ const TankSchema = new Schema({
     energyPool: { type: Number, default: 0 },           // energy pool size
     experience: { type: Number, default: 0 },           // tank experience
     tankLevel: { type: Number, default: 0 },            // current level
+
+    name: { type: String },                             // tank name
+    image: { type: String },                            // tank image
+    description: { type: String },                      // tank description
     health: { type: Number, default: 0 },               // max health
     fireRate: { type: Number, default: 0 },             // fire Rate
     firePower: { type: Number, default: 0 },            // fire Power
@@ -31,6 +38,8 @@ NFTTankschema.add(NFTSchema).add(TankSchema);
 const ClassSchema = new Schema({
     id: { type: Number, required: true },
     name: { type: String },
+    image: { type: String },
+    description: { type: String },                      // tank description
     health: { type: Number },
     fireRate: { type: Number },
     firePower: { type: Number },

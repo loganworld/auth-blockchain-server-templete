@@ -1,5 +1,8 @@
+// by Logan <https://github.com/loganworld>
+// at 19/08/2022
 
 const { BlockNumbers, NFTTanks, Classes } = require("./models");
+const ethers = require("ethers");
 
 const BlockNumController = {
     create: async (props) => {
@@ -75,6 +78,12 @@ const TanksController = {
             { $set: newData }
         );
     },
+    upgrade: async (filter, newData) => {
+        return await NFTTanks.updateOne(
+            filter,
+            newData
+        );
+    },
     remove: async (filter) => {
         return await NFTTanks.findOneAndDelete(
             filter
@@ -100,12 +109,30 @@ const TanksController = {
         var tankClassType = await Classes.findOne({ id: tank.classType });
         //update level
         var newLevel = Math.floor(Math.sqrt((tank.experience) / 1000));
+        if (newLevel <= tank.tanklevel) return;
+
         tank.health += tankClassType.healthAdd * (newLevel - tank.tanklevel);
         tank.fireRate += tankClassType.fireRateAdd * (newLevel - tank.tanklevel);
         tank.firePower += tankClassType.firePowerAdd * (newLevel - tank.tanklevel);
         tank.speed += tankClassType.speedAdd * (newLevel - tank.tanklevel);
         tank.tanklevel = newLevel;
         await tank.save();
+    },
+    /**
+     * get sign for upgrade NFT
+     */
+    getUpgradeSign: async (filter) => {
+        var tank = await NFTTanks.findOne(filter);
+        var availableLevel = Math.floor(tank.tankLevel / 10);
+        var signer = new ethers.Wallet(process.env.ADMINWALLET);
+        let messageHash = ethers.utils.solidityKeccak256(
+            ["uint", "uint"],
+            [tank.id, availableLevel]
+        );
+        let signature = await signer.signMessage(
+            ethers.utils.arrayify(messageHash)
+        );
+        return signature;
     }
 };
 
@@ -144,6 +171,9 @@ const ClassesController = {
     find: async (filter) => {
         return await Classes.findOne(filter);
     },
+    finds: async (filter) => {
+        return await Classes.find(filter);
+    },
     update: async (filter, newData) => {
         return await Classes.updateOne(
             filter,
@@ -161,3 +191,4 @@ const ClassesController = {
 };
 
 module.exports = { BlockNumController, TanksController, ClassesController };
+

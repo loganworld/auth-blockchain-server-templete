@@ -1,3 +1,6 @@
+// by Logan <https://github.com/loganworld>
+// at 19/08/2022
+
 require("dotenv").config();
 const { ethers } = require("ethers");
 

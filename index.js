@@ -31,7 +31,7 @@ require("dotenv").config();
         })
     );
 
-    const routes = require("./app/app-rest");
+    const routes = require("./app/router-rest");
     routes(router);
     app.use("/api", router);
 
@@ -50,7 +50,7 @@ require("dotenv").config();
         }
     });
     //socketIO server
-    const SocketListner = require("./app/app-socket");
+    const SocketListner = require("./app/router-socket");
     SocketListner(io);
 }
 

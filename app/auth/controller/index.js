@@ -1,8 +1,10 @@
-const UserSchema = require("./models");
+// by Logan <https://github.com/loganworld>
+// at 19/08/2022
 
+const UserSchema = require("./models");
 const UserController = {
     /**
-     * 
+     * create user data to db
      * @param {name, email, hashedPassword, address} props 
      * @returns 
      */

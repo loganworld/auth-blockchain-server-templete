@@ -1,13 +1,16 @@
+// by Logan <https://github.com/loganworld>
+// at 19/08/2022
+
 const jwt = require("jsonwebtoken");
-const ethers = require("ethers");
 const UserController = require("../controller");
 const { getHash } = require("../utils")
+const { encryptFromJson, decryptToJson, securityCode } = require("../../utils");
 
 //login, disconnect, autoLogin
 
-const userMiddleware = async (socket, req) => {
+const userMiddleware = async (socket) => {
     if (!global.users[socket.id]) {
-        socket.emit("authError");
+        socket.emit(securityCode["authError"]);
         return null;
     }
     const Result = await UserController.find({
@@ -26,9 +29,9 @@ const AuthLisnter = (io) => {
                 delete global.users[socket.id];
             console.log('socket disconnected: ' + socket.id);
         });
-        socket.on('login', async (req) => {
+        socket.on(securityCode['login'], async (req) => {
             try {
-                const { name, password } = req;
+                const { name, password } = decryptToJson(req.data);
                 const hashedPassword = getHash(name, password);
                 var userData = await UserController.find({ name: name });
                 if (!userData) throw new Error("Invalid username");
@@ -40,13 +43,32 @@ const AuthLisnter = (io) => {
                     name: userData.name,
                     address: userData.address,
                     email: userData.email
-                }, process.env.TOKEN_SECRET, {
+                }, process.env.TOKEN_SECRET || "TOKEN_SECRET", {
                     expiresIn: "144h",
                 });
-                socket.emit('loginSuccess', { token: token });
+
+                const encryptedData = encryptFromJson({ token: token });
+                socket.emit(securityCode['loginSuccess'], { data: encryptedData });
             } catch (err) {
                 console.error("Auth/logIn : ", err.message);
-                socket.emit('loginError', err.message)
+                const encryptedData = encryptFromJson({ error: err.message });
+                socket.emit(securityCode['loginError'], { data: encryptedData })
+            }
+        })
+        // temp 
+        socket.on(securityCode['signup'], async (req) => {
+            try {
+                const { name, email, password } = decryptToJson(req.data);
+                var address = "0xfB4d81A31BcBC5E2024f6c4247DD2Ce913bd7c95";
+                const hashedPassword = getHash(name, password);
+                // create user data 
+                await UserController.create({ name, email, hashedPassword, address });
+                socket.emit(securityCode['signupSuccess'], encryptFromJson({ token: token }));
+
+            } catch (err) {
+                console.error("Auth/signup : ", err.message);
+                const encryptedData = encryptFromJson({ error: err.message });
+                socket.emit(securityCode['signupError'], { data: encryptedData })
             }
         })
     })

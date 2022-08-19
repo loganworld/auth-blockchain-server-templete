@@ -1,3 +1,6 @@
+// by Logan <https://github.com/loganworld>
+// at 19/08/2022
+
 const jwt = require("jsonwebtoken");
 const ethers = require("ethers");
 const UserController = require("../controller");

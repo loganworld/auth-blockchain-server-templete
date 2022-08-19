@@ -1,3 +1,6 @@
+// by Logan <https://github.com/loganworld>
+// at 19/08/2022
+
 const { ethers } = require("ethers");
 const { Contract, Provider, setMulticallAddress } = require("ethers-multicall");
 const Abis = require("./contracts/abis.json");

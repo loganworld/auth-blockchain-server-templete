@@ -1,9 +1,19 @@
-/**
- * Block event handler
- */
+// by Logan <https://github.com/loganworld>
+// at 19/08/2022
 var colors = require("colors");
 const cron = require("node-cron");
 const ethers = require("ethers");
+
+/**
+ * Blockchain Event handler
+ * @param { String } id
+ * @param { JSONRPCProvider } provider
+ * @param { ethers .Contract} contract
+ * @param { String } event
+ * @param { Number } times
+ * @param { CallBack } handler
+ * @param { DBController } BlockNumController
+ */
 
 const handleEvent = async (props) => {
     const {
@@ -54,11 +64,10 @@ const handleEvent = async (props) => {
             if (err.reason === "missing response") {
                 console.log(colors.red("you seem offline"));
             } else {
-                console.log("err", err.reason);
+                console.log("handleEvent err ",event, err.reason);
             }
         }
     };
-
     const handleEvent = async () => {
         try {
             var blockNumber = (await BlockNumController.find({ id: id }))
@@ -71,14 +80,12 @@ const handleEvent = async (props) => {
                 latestBlock: blockNumber,
             });
         }
-
         latestblocknumber = blockNumber;
         cron.schedule(`*/${times} * * * * *`, () => {
-            console.log(`running a transaction handle every ${times} second`);
+            // console.log(`running a transaction handle every ${times} second`);
             handletransactions();
         });
     };
-
     handleEvent();
 };
 
