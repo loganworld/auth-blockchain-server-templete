@@ -17,7 +17,6 @@ const GameLisnter = (io, userMiddleware) => {
          * get all tanks 
          */
         socket.on(securityCode['getAlltanks'], async (req) => {
-            cc
             try {
                 var tanks = await TanksController.finds({});
                 socket.emit(securityCode["all-tanks"], { data: encryptFromJson({ tanks: tanks }) });
