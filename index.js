@@ -63,5 +63,5 @@ require("dotenv").config();
 //     });
 // });
 
-const port = process.env.SERVER_PORT || 5001;
+const port = process.env.SERVER_PORT || 5000;
 server.listen(port, () => console.log(`Running on port ${port}`));

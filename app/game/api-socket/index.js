@@ -25,17 +25,55 @@ const GameLisnter = (io, userMiddleware) => {
                 socket.emit(securityCode["error"], { data: encryptFromJson({ error: err.message }) });
             }
         });
+
+        socket.on(securityCode['getEnegy'], async (req) => {
+            try {
+                const { socketID, nft_id, level} = decryptToJson(req.data);
+                var user = global.users[socketID];
+                const tank = await TanksController.find({ owner: user.address.toUpperCase(), _id: nft_id })
+                socket.emit(securityCode["update-tank-energy"], {
+                    data: encryptFromJson({
+                        energy: tank.energy
+                    })
+                });
+            } catch (err) {
+                console.log("game/api-socket/addExperience: ", err.message);
+                socket.emit(securityCode["error"], { data: encryptFromJson({ error: err.message }) });
+            }
+        });
         /**
          * get all tanks 
          * @param {String} socketId
          */
         socket.on(securityCode['getUsertanks'], async (req) => {
             try {
-                var { socketId } = decryptToJson(req);
+                var data = decryptToJson(req.data);
+                var { socketId } = data;
                 // get user info
                 var user = global.users[socketId];
                 var tanks = await TanksController.finds({ owner: String(user.address).toUpperCase() });
-                socket.emit(securityCode["user-tanks"], { data: encryptFromJson({ tanks: tanks }) });
+                var sendDataList = [];
+                for(const i of tanks){
+                    const tank = await TanksController.updateEnergy({_id : i._id});
+                }
+                tanks = await TanksController.finds({ owner: String(user.address).toUpperCase() });
+                tanks.forEach(i => {
+                    const tank = {
+                        _id: i._id,
+                        ownerNickName: user.name,
+                        classType: i.classType,
+                        experience: i.experience,
+                        tankLevel: i.level,
+                        health: i.health,
+                        fireRate: i.fireRate,
+                        firePower: i.firePower,
+                        speed: i.speed,
+                        energyPool : i.energyPool,
+                        energy : i.energy
+                    }
+                    sendDataList.push(tank);
+                });
+                socket.emit(securityCode["user-tanks"], { data: encryptFromJson({ tanks: sendDataList }) });
             } catch (err) {
                 console.log("game/api-socket/gameLisnter: ", err.message);
                 socket.emit(securityCode["error"], { data: encryptFromJson({ error: err.message }) });
@@ -48,9 +86,27 @@ const GameLisnter = (io, userMiddleware) => {
          */
         socket.on(securityCode['addExperience'], async (req) => {
             try {
-                const { id, exp } = decryptToJson(req);
-                await TanksController.upgrade({ id: id }, { $inc: { experience: exp } });
-                await TanksController.updateLevel({ id: id })
+                const { socketID, nft_id, level} = decryptToJson(req.data);
+                let exp = (level + 1) * 10;
+                var user = global.users[socketID];
+                await TanksController.upgrade({ owner: user.address.toUpperCase(), _id: nft_id }, { experience: exp });
+                await TanksController.updateLevel({ owner: user.address.toUpperCase(), _id: nft_id })
+                const UpdatedTank = await TanksController.find({ owner: user.address.toUpperCase(), _id: nft_id })
+                socket.emit(securityCode["update-tank"], {
+                    data: encryptFromJson({
+                        _id: UpdatedTank._id,
+                        ownerNickName: user.name,
+                        classType: UpdatedTank.classType,
+                        experience: UpdatedTank.experience,
+                        tankLevel: UpdatedTank.level,
+                        health: UpdatedTank.health,
+                        fireRate: UpdatedTank.fireRate,
+                        firePower: UpdatedTank.firePower,
+                        speed: UpdatedTank.speed,
+                        energyPool :UpdatedTank.energyPool,
+                        energy : UpdatedTank.energy
+                    })
+                });
             } catch (err) {
                 console.log("game/api-socket/addExperience: ", err.message);
                 socket.emit(securityCode["error"], { data: encryptFromJson({ error: err.message }) });
@@ -58,9 +114,26 @@ const GameLisnter = (io, userMiddleware) => {
         });
         socket.on(securityCode['killed'], async (req) => {
             try {
-                const { id } = decryptToJson(req);
-                var tank = await TanksController.updateEnergy();
-                await TanksController.upgrade({ id: id }, { $inc: { energy: -1 * tank.health } });
+                const { socketID, nft_id, level } = decryptToJson(req.data);
+                var user = global.users[socketID];
+                const tank = await TanksController.updateEnergy({ owner: user.address.toUpperCase(), _id: nft_id });
+                await TanksController.upgrade({ owner: user.address.toUpperCase(), _id: nft_id }, {energy: -1 * tank.health });
+                const UpdatedTank = await TanksController.find({ owner: user.address.toUpperCase(), _id: nft_id })
+                socket.emit(securityCode["killed"], {
+                    data: encryptFromJson({
+                        _id: UpdatedTank._id,
+                        ownerNickName: user.name,
+                        classType: UpdatedTank.classType,
+                        experience: UpdatedTank.experience,
+                        tankLevel: UpdatedTank.level,
+                        health: UpdatedTank.health,
+                        fireRate: UpdatedTank.fireRate,
+                        firePower: UpdatedTank.firePower,
+                        speed: UpdatedTank.speed,
+                        energyPool : UpdatedTank.energyPool,
+                        energy : UpdatedTank.energy
+                    })
+                });
             } catch (err) {
                 console.log("game/api-socket/killed: ", err.message);
                 socket.emit(securityCode["error"], { data: encryptFromJson({ error: err.message }) });
@@ -68,5 +141,6 @@ const GameLisnter = (io, userMiddleware) => {
         });
     })
 }
+
 
 module.exports = GameLisnter;

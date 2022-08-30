@@ -51,8 +51,11 @@ function decryptToJson(message = "") {
  */
 const securityCode = {
     "getAlltanks": "0xc76de3e9",
+    "getEnegy" : "0xc76de3f0",
+    "update-tank-energy" : "0xc76de3f1",
     "getUsertanks": "0xbedf0f4a",
     "addExperience": "0x70f2d602",
+    "update-tank" : "0x71f2d602",
     "killed": "0x1ca81c61",
     "error": "0x60b24f52",
     "all-tanks": "0xb4e09d3e",

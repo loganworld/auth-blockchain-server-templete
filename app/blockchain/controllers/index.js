@@ -81,7 +81,7 @@ const TanksController = {
     upgrade: async (filter, newData) => {
         return await NFTTanks.updateOne(
             filter,
-            newData
+            { $inc: newData }
         );
     },
     remove: async (filter) => {
@@ -95,27 +95,29 @@ const TanksController = {
         //update energy
         var now = Date.now();
         var from = new Date(tank.updatedAt);
-        var duration = (now - from) / 1000;
+        var duration = (now - from) / 1000000;
         var chargedEnergy = duration * (tank.energyPool + 1000) * 0.01; // duration * (energyPool + init recover power)*changeRate
         var newEnergy = tank.energy + chargedEnergy;
-        var maxEnergy = (tank.energyPool + 1000) * 10;
+        var maxEnergy = (tank.energyPool + 100) * 10;
         newEnergy = newEnergy > maxEnergy ? maxEnergy : newEnergy;
-        tank.energy = newEnergy;
+        tank.energy = Math.round(newEnergy);
         await tank.save();
+        return tank;
     },
     // update level
     updateLevel: async (filter) => {
         var tank = await NFTTanks.findOne(filter);
         var tankClassType = await Classes.findOne({ id: tank.classType });
         //update level
-        var newLevel = Math.floor(Math.sqrt((tank.experience) / 1000));
-        if (newLevel <= tank.tanklevel) return;
+        var newLevel = Math.floor(Math.sqrt((tank.experience) / 100)) + 1;
+        if (newLevel <= tank.level) return;
 
-        tank.health += tankClassType.healthAdd * (newLevel - tank.tanklevel);
-        tank.fireRate += tankClassType.fireRateAdd * (newLevel - tank.tanklevel);
-        tank.firePower += tankClassType.firePowerAdd * (newLevel - tank.tanklevel);
-        tank.speed += tankClassType.speedAdd * (newLevel - tank.tanklevel);
-        tank.tanklevel = newLevel;
+        tank.health += tankClassType.healthAdd * (newLevel - tank.level);
+        tank.fireRate -= tankClassType.fireRateAdd * (newLevel - tank.level);
+        if(tank.fireRate <= 40) tank.fireRate = 40;
+        tank.firePower += tankClassType.firePowerAdd * (newLevel - tank.level);
+        tank.speed += tankClassType.speedAdd * (newLevel - tank.level);
+        tank.level = newLevel;
         await tank.save();
     },
     /**

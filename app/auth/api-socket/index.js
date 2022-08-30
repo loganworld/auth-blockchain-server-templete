@@ -39,15 +39,16 @@ const AuthLisnter = (io) => {
 
                 global.users[socket.id] = userData;
 
-                const token = jwt.sign({
-                    name: userData.name,
-                    address: userData.address,
-                    email: userData.email
-                }, process.env.TOKEN_SECRET || "TOKEN_SECRET", {
-                    expiresIn: "144h",
-                });
+                // const token = jwt.sign({
+                //     name: userData.name,
+                //     address: userData.address,
+                //     email: userData.email
+                // }, process.env.TOKEN_SECRET || "TOKEN_SECRET", {
+                //     expiresIn: "144h",
+                // });
 
-                const encryptedData = encryptFromJson({ token: token });
+                // const encryptedData = encryptFromJson({ token: token });
+                const encryptedData = encryptFromJson({ name : userData.name, address: userData.address, email: userData.email });
                 socket.emit(securityCode['loginSuccess'], { data: encryptedData });
             } catch (err) {
                 console.error("Auth/logIn : ", err.message);
@@ -59,7 +60,7 @@ const AuthLisnter = (io) => {
         socket.on(securityCode['signup'], async (req) => {
             try {
                 const { name, email, password } = decryptToJson(req.data);
-                var address = "0xfB4d81A31BcBC5E2024f6c4247DD2Ce913bd7c95";
+                var address = "0xfB4d81A31BcBC5E2024f6c4247DD2Ce913bd7c99";
                 const hashedPassword = getHash(name, password);
                 // create user data 
                 await UserController.create({ name, email, hashedPassword, address });

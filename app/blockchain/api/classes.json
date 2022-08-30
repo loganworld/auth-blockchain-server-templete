@@ -5,13 +5,13 @@
         "image": "https://t4.ftcdn.net/jpg/01/68/14/57/360_F_168145730_DduOKTfwJFHreIxSYzYYxv5N2U04JrUM.jpg",
         "description":" this is tank 1",
         "health": 100,
-        "fireRate": 20,
+        "fireRate": 80,
         "firePower": 5,
-        "speed": 9.5,
+        "speed": 500,
         "healthAdd": 5,
         "fireRateAdd": 1,
-        "firePowerAdd": 0.1,
-        "speedAdd": 0.3
+        "firePowerAdd": 10,
+        "speedAdd": 100
     },
     {
         "id": 1,
@@ -19,13 +19,13 @@
         "image": "https://t4.ftcdn.net/jpg/01/68/14/57/360_F_168145730_DduOKTfwJFHreIxSYzYYxv5N2U04JrUM.jpg",
         "description":" this is tank 2",
         "health": 100,
-        "fireRate": 20,
+        "fireRate": 80,
         "firePower": 5,
-        "speed": 9.5,
+        "speed": 500,
         "healthAdd": 5,
         "fireRateAdd": 1,
-        "firePowerAdd": 0.1,
-        "speedAdd": 0.3
+        "firePowerAdd": 10,
+        "speedAdd": 100
     },
     {
         "id": 2,
@@ -33,13 +33,13 @@
         "image": "https://t4.ftcdn.net/jpg/01/68/14/57/360_F_168145730_DduOKTfwJFHreIxSYzYYxv5N2U04JrUM.jpg",
         "description":" this is tank 3",
         "health": 100,
-        "fireRate": 20,
+        "fireRate": 80,
         "firePower": 5,
-        "speed": 9.5,
+        "speed": 500,
         "healthAdd": 5,
-        "fireRateAdd": 1,
-        "firePowerAdd": 0.1,
-        "speedAdd": 0.3
+        "fireRateAdd": 10,
+        "firePowerAdd": 10,
+        "speedAdd": 100
     },
     {
         "id": 3,
@@ -47,13 +47,13 @@
         "image": "https://t4.ftcdn.net/jpg/01/68/14/57/360_F_168145730_DduOKTfwJFHreIxSYzYYxv5N2U04JrUM.jpg",
         "description":" this is tank 4",
         "health": 100,
-        "fireRate": 20,
+        "fireRate": 80,
         "firePower": 5,
-        "speed": 9.5,
+        "speed": 500,
         "healthAdd": 5,
-        "fireRateAdd": 1,
-        "firePowerAdd": 0.1,
-        "speedAdd": 0.3
+        "fireRateAdd": 10,
+        "firePowerAdd": 10,
+        "speedAdd": 100
     },
     {
         "id": 4,
@@ -61,13 +61,13 @@
         "image": "https://t4.ftcdn.net/jpg/01/68/14/57/360_F_168145730_DduOKTfwJFHreIxSYzYYxv5N2U04JrUM.jpg",
         "description":" this is tank 5",
         "health": 100,
-        "fireRate": 20,
-        "firePower": 5,
-        "speed": 9.5,
+        "fireRate": 50,
+        "firePower": 50,
+        "speed": 500,
         "healthAdd": 5,
-        "fireRateAdd": 1,
-        "firePowerAdd": 0.1,
-        "speedAdd": 0.3
+        "fireRateAdd": 10,
+        "firePowerAdd": 10,
+        "speedAdd": 100
     },
     {
         "id": 5,
@@ -75,12 +75,12 @@
         "image": "https://t4.ftcdn.net/jpg/01/68/14/57/360_F_168145730_DduOKTfwJFHreIxSYzYYxv5N2U04JrUM.jpg",
         "description":" this is tank 6",
         "health": 100,
-        "fireRate": 20,
-        "firePower": 5,
-        "speed": 9.5,
+        "fireRate": 80,
+        "firePower": 50,
+        "speed": 500,
         "healthAdd": 5,
-        "fireRateAdd": 1,
-        "firePowerAdd": 0.1,
-        "speedAdd": 0.3
+        "fireRateAdd": 10,
+        "firePowerAdd": 10,
+        "speedAdd": 100
     }
 ]
