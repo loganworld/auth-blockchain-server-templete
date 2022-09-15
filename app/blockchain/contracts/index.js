@@ -8,7 +8,7 @@ const Addresses = require("./contracts/addresses.json");
 const { provider, supportChainId } = require("./providers");
 
 const multicallAddress = process.env.MULTIADDRESS || "0x402C435EA85DFdA24181141De1DE66bad67Cdf12"; // 4002 multiaddress
-setMulticallAddress(supportChainId, multicallAddress);
+setMulticallAddress(4002, multicallAddress);
 const multicallProvider = new Provider(provider, supportChainId);
 
 // make contract objects

@@ -6,14 +6,23 @@ const gameApi = require("../game/api");
 initHandler();
 
 module.exports = (router) => {
-    // User API
-    router.post("/auth/signup", UserApi.signUp);
-    router.post("/auth/login", UserApi.logIn);
-    router.post("/tanks/all-tanks", gameApi.getAlltanks);
-    router.post("/tanks/user-tanks", gameApi.getUsertanks);
-    router.post("/tanks/get-tanks", gameApi.getTanks);
+  // User API
+  router.post("/auth/signup", UserApi.signUp);
+  router.post("/auth/login", UserApi.logIn);
+  router.post("/auth/update-userdata", UserApi.updateUserData);
+  router.post("/auth/check-userdata", UserApi.checkUserData);
+  router.post("/auth/get-userdata", UserApi.getUserData);
+  router.post("/auth/like", UserApi.like);
 
-    router.post("/tanks/get-sign", gameApi.getUpgradeSign);
+  router.post("/tanks/classes", gameApi.getTankClasses);
+  router.post("/tanks/all-tanks", gameApi.getAlltanks);
+  router.post("/tanks/user-tanks", gameApi.getUsertanks);
+  router.post("/tanks/get-tanks", gameApi.getTanks);
+  router.post("/tanks/get-upgradesign", gameApi.getUpgradeSign);
 
-    router.post("/tanks/:id", gameApi.metadata);
+  router.post("/tanks/borrow", gameApi.borrow);
+  router.post("/tanks/lend", gameApi.lend);
+  router.post("/tanks/like", gameApi.like);
+
+  router.post("/tanks/:id", gameApi.metadata);
 };
