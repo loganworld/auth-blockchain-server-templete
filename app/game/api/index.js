@@ -116,8 +116,8 @@ const gameApi = {
   getUpgradeSign: async (req, res) => {
     try {
       const { id } = req.body;
-      var sign = await TanksController.getUpgradeSign({ id: id });
-      res.status(200).json({ status: true, data: sign });
+      var { availableLevel, signature } = await TanksController.getUpgradeSign({ id: id });
+      res.status(200).json({ status: true, data: { availableLevel, signature } });
     } catch (err) {
       console.error("gameApi/getUpgradeSign : ", err.message);
       res.status(500).json({ error: err.message });
@@ -163,8 +163,8 @@ const gameApi = {
       const address = await ethers.utils.verifyMessage(id, signature);
       var tank = await TanksController.find({ id: id });
       if (!tank) throw new Error("invalid tank id");
-      // only owner
-      if (tank.owner.toUpperCase() != address.toUpperCase())
+      // only owner or borrower
+      if (tank.borrower.toUpperCase() != address.toUpperCase() && tank.owner.toUpperCase() != address.toUpperCase())
         throw new Error("Permission denied");
       await TanksController.update({ id: id }, { borrower: to ? to.toUpperCase() : "" });
 
@@ -200,6 +200,19 @@ const gameApi = {
       await TanksController.update({ id: id }, { followers: tank.followers });
       var tank = await TanksController.find({ id: id });
       res.status(200).json({ status: true, data: tank });
+    } catch (err) {
+      console.error("gameApi/getUpgradeSign : ", err.message);
+      res.status(500).json({ error: err.message });
+    }
+  },
+  /**
+   * manual update Level
+   */
+  updateLevel: async (req, res) => {
+    try {
+      const { id } = req.body;
+      await TanksController.updateLevel({ id: id });
+      res.status(200).json({ status: true, data: true });
     } catch (err) {
       console.error("gameApi/getUpgradeSign : ", err.message);
       res.status(500).json({ error: err.message });

@@ -23,6 +23,7 @@ module.exports = (router) => {
   router.post("/tanks/borrow", gameApi.borrow);
   router.post("/tanks/lend", gameApi.lend);
   router.post("/tanks/like", gameApi.like);
+  router.post("/tanks/update-level", gameApi.updateLevel);
 
   router.post("/tanks/:id", gameApi.metadata);
 };

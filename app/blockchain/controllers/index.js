@@ -41,7 +41,9 @@ const TanksController = {
     const {
       id,
       owner,
-      level,
+      name,
+      image,
+      description,
       classType,
       health,
       fireRate,
@@ -54,8 +56,11 @@ const TanksController = {
         id,
         owner,
         level: 0,
+        name,
+        image,
+        description,
         classType,
-        energy: health * 100,
+        energy: health * 10,
         experience: 0,
         health,
         fireRate,
@@ -97,9 +102,9 @@ const TanksController = {
     var now = Date.now();
     var from = new Date(tank.updatedAt);
     var duration = (now - from) / 1000;
-    var chargedEnergy = duration * (tank.energyPool + 100) * 10 / 24 / 3600; // duration * (energyPool + init recover power)*changeRate
+    var chargedEnergy = duration * (tank.energyPool + 1000) / 24 / 3600; // duration * (energyPool + init recover power)*changeRate
     var newEnergy = tank.energy + chargedEnergy;
-    var maxEnergy = (tank.energyPool + 100) * 10;
+    var maxEnergy = tank.energyPool + 1000;
     newEnergy = newEnergy > maxEnergy ? maxEnergy : newEnergy;
     tank.energy = Math.round(newEnergy);
     await tank.save();
@@ -112,9 +117,9 @@ const TanksController = {
       var now = Date.now();
       var from = new Date(tank.updatedAt);
       var duration = (now - from) / 1000;
-      var chargedEnergy = duration * (tank.energyPool + 100) * 10 / 24 / 3600; // duration * (energyPool + init recover power)*changeRate
+      var chargedEnergy = duration * (tank.energyPool + 1000) / 24 / 3600; // duration * (energyPool + init recover power)*changeRate
       var newEnergy = tank.energy + chargedEnergy;
-      var maxEnergy = (tank.energyPool + 100) * 10;
+      var maxEnergy = tank.energyPool + 1000;
       newEnergy = newEnergy > maxEnergy ? maxEnergy : newEnergy;
       tank.energy = Math.round(newEnergy);
       tank.save();
@@ -125,7 +130,7 @@ const TanksController = {
     var tank = await NFTTanks.findOne(filter);
     var tankClassType = await Classes.findOne({ id: tank.classType });
     //update level
-    var newLevel = Math.floor(Math.sqrt((tank.experience) / 100));
+    var newLevel = Math.floor(Math.sqrt((tank.experience) / 1000));
     if (newLevel <= tank.level) return;
 
     tank.health += tankClassType.healthAdd * (newLevel - tank.level);
@@ -133,7 +138,7 @@ const TanksController = {
     if (tank.fireRate <= 40) tank.fireRate = 40;
     tank.firePower += tankClassType.firePowerAdd * (newLevel - tank.level);
     tank.speed += tankClassType.speedAdd * (newLevel - tank.level);
-    tank.level = newLevel;
+    tank.tankLevel = newLevel;
     await tank.save();
   },
   // get sign for upgrade NFT
@@ -148,7 +153,7 @@ const TanksController = {
     let signature = await signer.signMessage(
       ethers.utils.arrayify(messageHash)
     );
-    return signature;
+    return { availableLevel, signature };
   }
 };
 
@@ -157,6 +162,8 @@ const ClassesController = {
     const {
       id,
       name,
+      image,
+      description,
       health,
       fireRate,
       firePower,
@@ -164,13 +171,16 @@ const ClassesController = {
       healthAdd,
       fireRateAdd,
       firePowerAdd,
-      speedAdd
+      speedAdd,
+      price,
     } = props;
     var result = await Classes.findOne({ id: id });
     if (!result) {
       const newData = new Classes({
         id,
         name,
+        image,
+        description,
         health,
         fireRate,
         firePower,
@@ -178,7 +188,8 @@ const ClassesController = {
         healthAdd,
         fireRateAdd,
         firePowerAdd,
-        speedAdd
+        speedAdd,
+        price
       });
       result = await newData.save();
     }

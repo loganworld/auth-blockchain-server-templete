@@ -24,7 +24,8 @@ const initClasses = async () => {
         healthAdd: newClass.healthAdd,
         fireRateAdd: newClass.fireRateAdd,
         firePowerAdd: newClass.firePowerAdd,
-        speedAdd: newClass.speedAdd
+        speedAdd: newClass.speedAdd,
+        price: newClass.price
       })
     }));
 }

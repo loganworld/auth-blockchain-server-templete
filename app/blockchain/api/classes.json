@@ -2,7 +2,7 @@
   {
     "id": 0,
     "name": "tank1",
-    "image": "https://t4.ftcdn.net/jpg/01/68/14/57/360_F_168145730_DduOKTfwJFHreIxSYzYYxv5N2U04JrUM.jpg",
+    "image": "https://ipfs.babylonswap.finance/ipfs/QmYK2V8h6t8gjuV26FV5zACzRe1UkYPdRgHnTLAnsDM5nS",
     "description": " this is tank 1",
     "health": 100,
     "fireRate": 80,
@@ -12,12 +12,12 @@
     "fireRateAdd": 1,
     "firePowerAdd": 10,
     "speedAdd": 100,
-    "price": 100
+    "price": 1000
   },
   {
     "id": 1,
     "name": "tank2",
-    "image": "https://t4.ftcdn.net/jpg/01/68/14/57/360_F_168145730_DduOKTfwJFHreIxSYzYYxv5N2U04JrUM.jpg",
+    "image": "https://ipfs.babylonswap.finance/ipfs/QmfU4nV23PumUzt5WxFZ2rbGafA5tLp4SVpBBeXMyZpja1",
     "description": " this is tank 2",
     "health": 100,
     "fireRate": 80,
@@ -27,12 +27,12 @@
     "fireRateAdd": 1,
     "firePowerAdd": 10,
     "speedAdd": 100,
-    "price": 150
+    "price": 1200
   },
   {
     "id": 2,
     "name": "tank3",
-    "image": "https://t4.ftcdn.net/jpg/01/68/14/57/360_F_168145730_DduOKTfwJFHreIxSYzYYxv5N2U04JrUM.jpg",
+    "image": "https://ipfs.babylonswap.finance/ipfs/QmZK72v6JWkWX153AEasaVGA5qxyt6pV9KTLwxnGMUqddK",
     "description": " this is tank 3",
     "health": 100,
     "fireRate": 80,
@@ -42,12 +42,12 @@
     "fireRateAdd": 10,
     "firePowerAdd": 10,
     "speedAdd": 100,
-    "price": 200
+    "price": 1400
   },
   {
     "id": 3,
     "name": "tank4",
-    "image": "https://t4.ftcdn.net/jpg/01/68/14/57/360_F_168145730_DduOKTfwJFHreIxSYzYYxv5N2U04JrUM.jpg",
+    "image": "https://ipfs.babylonswap.finance/ipfs/Qmcbn7w8u5SJizvLVJyDMQ6BqXmApbsRJetrQ1cX44se9t",
     "description": " this is tank 4",
     "health": 100,
     "fireRate": 80,
@@ -57,12 +57,12 @@
     "fireRateAdd": 10,
     "firePowerAdd": 10,
     "speedAdd": 100,
-    "price": 250
+    "price": 1600
   },
   {
     "id": 4,
     "name": "tank5",
-    "image": "https://t4.ftcdn.net/jpg/01/68/14/57/360_F_168145730_DduOKTfwJFHreIxSYzYYxv5N2U04JrUM.jpg",
+    "image": "https://ipfs.babylonswap.finance/ipfs/QmUuNrJ8UHo2L8uPgY6MNvbgTanYbfX8LcbYMQvqsGBhMu",
     "description": " this is tank 5",
     "health": 100,
     "fireRate": 50,
@@ -72,21 +72,6 @@
     "fireRateAdd": 10,
     "firePowerAdd": 10,
     "speedAdd": 100,
-    "price": 300
-  },
-  {
-    "id": 5,
-    "name": "tank6",
-    "image": "https://t4.ftcdn.net/jpg/01/68/14/57/360_F_168145730_DduOKTfwJFHreIxSYzYYxv5N2U04JrUM.jpg",
-    "description": " this is tank 6",
-    "health": 100,
-    "fireRate": 80,
-    "firePower": 50,
-    "speed": 500,
-    "healthAdd": 5,
-    "fireRateAdd": 10,
-    "firePowerAdd": 10,
-    "speedAdd": 100,
-    "price": 350
+    "price": 2000
   }
 ]

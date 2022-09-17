@@ -89,9 +89,9 @@ const GameLisnter = (io, userMiddleware) => {
         const { socketID, nft_id, level } = decryptToJson(req.data);
         let exp = (level + 1) * 10;
         var user = global.users[socketID];
-        await TanksController.upgrade({ owner: user.address.toUpperCase(), _id: nft_id }, { experience: exp });
-        await TanksController.updateLevel({ owner: user.address.toUpperCase(), _id: nft_id })
-        const UpdatedTank = await TanksController.find({ owner: user.address.toUpperCase(), _id: nft_id })
+        await TanksController.upgrade({ _id: nft_id }, { experience: exp });
+        await TanksController.updateLevel({ _id: nft_id })
+        const UpdatedTank = await TanksController.find({ _id: nft_id })
         socket.emit(securityCode["update-tank"], {
           data: encryptFromJson({
             _id: UpdatedTank._id,

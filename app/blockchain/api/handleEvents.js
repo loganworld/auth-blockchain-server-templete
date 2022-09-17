@@ -24,17 +24,15 @@ const blockchainHandler = async () => {
       let txData = {
         from: tx.args.from,
         to: tx.args.to,
-        tokenId: fromBigNum(tx.args.tokenId, 0),
-        isTempType: tx.args.isTempType
+        tokenId: fromBigNum(tx.args.tokenId, 0)
       };
       if (txData.from == ethers.constants.AddressZero) {
-        var classType;
+        var tankInfo;
         //temp
-        if (txData.isTempType != undefined) classType = { id: txData.isTempType };
-        else classType = await NFTTANK.classInfos(txData.tokenId);
-
+        if (txData.isTempType != undefined) tankInfo = { class: txData.isTempType };
+        else tankInfo = await NFTTANK.tanks(txData.tokenId);
         //mint 
-        const tankType = await ClassesController.find({ id: String(classType.id) });
+        const tankType = await ClassesController.find({ id: String(tankInfo.class) });
         if (!tankType) throw new Error("blockchainHandler/transferHandler :invalid type ");
         await TanksController.create({
           id: txData.tokenId,
@@ -78,17 +76,12 @@ const blockchainHandler = async () => {
       let txData = {
         from: tx.args.from,
         to: tx.args.to,
-        tokenId: fromBigNum(tx.args.tokenId, 0),
+        tokenId: fromBigNum(tx.args.id, 0),
         amount: fromBigNum(tx.args.value, 18)
       };
       await TanksController.updateEnergy({ id: txData.tokenId });
-      if (txData.from == ethers.constants.AddressZero) {
-        // stake 
-        await TanksController.upgrade({ id: txData.tokenId }, { $inc: { energyPool: Number(txData.amount) } });
-      } else if (txData.to == ethers.constants.AddressZero) {
-        // unstake 
-        await TanksController.upgrade({ id: txData.tokenId }, { $inc: { energyPool: -1 * Number(txData.amount) } })
-      }
+      var totalStake = await EnergyPool.supplies(tx.args.id);
+      await TanksController.update({ id: txData.tokenId }, { energyPool: Number(fromBigNum(totalStake, 18)) });
       await TanksController.updateEnergy({ id: txData.tokenId });
     }
 
@@ -152,7 +145,7 @@ const blockchainHandler = async () => {
         args: {
           from: ethers.constants.AddressZero,
           to: "0xfB4d81A31BcBC5E2024f6c4247DD2Ce913bd7c95",
-          tokenId: toBigNum(0, 0),
+          id: toBigNum(0, 0),
           value: toBigNum("100", 18)
         }
       })
@@ -160,12 +153,12 @@ const blockchainHandler = async () => {
         args: {
           from: "0xfB4d81A31BcBC5E2024f6c4247DD2Ce913bd7c95",
           to: ethers.constants.AddressZero,
-          tokenId: toBigNum(0, 0),
+          id: toBigNum(0, 0),
           value: toBigNum("100", 18)
         }
       })
     }
-    await demo();
+    // await demo();
   } catch (err) {
     console.log("blockchainhandler : ", err.message);
   }
