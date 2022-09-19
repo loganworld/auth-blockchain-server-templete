@@ -53,8 +53,14 @@ const ClassSchema = new Schema({
   price: { type: Number }
 }, { timestamps: true })
 
+const AdminSettingSchema = new Schema({
+  type: String,
+  value: String
+})
+
 const BlockNumbers = mongoose.model("BlockNumbers", BlockNumber);
 const NFTTanks = mongoose.model("NFTTanks", NFTTankschema);
 const Classes = mongoose.model("Classes", ClassSchema);
+const AdminSetting = mongoose.model("AdminSetting", AdminSettingSchema);
 
-module.exports = { BlockNumbers, NFTTanks, Classes }
+module.exports = { BlockNumbers, NFTTanks, Classes, AdminSetting }
