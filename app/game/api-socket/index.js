@@ -30,7 +30,7 @@ const GameLisnter = (io, userMiddleware) => {
       try {
         const { socketID, nft_id, level } = decryptToJson(req.data);
         var user = global.users[socketID];
-        const tank = await TanksController.find({ owner: user.address.toUpperCase(), _id: nft_id })
+        const tank = await TanksController.find({ id: nft_id })
         socket.emit(securityCode["update-tank-energy"], {
           data: encryptFromJson({
             energy: tank.energy
@@ -54,12 +54,12 @@ const GameLisnter = (io, userMiddleware) => {
         var tanks = await TanksController.finds({ borrower: String(user.address).toUpperCase() });
         var sendDataList = [];
         for (const i of tanks) {
-          await TanksController.updateEnergy({ _id: i._id });
+          await TanksController.updateEnergy({ id: i.id });
         }
-        tanks = await TanksController.finds({ owner: String(user.address).toUpperCase() });
+        tanks = await TanksController.finds({ borrower: String(user.address).toUpperCase() });
         tanks.forEach(i => {
           const tank = {
-            _id: i._id,
+            id: i.id,
             ownerNickName: user.name,
             classType: i.classType,
             experience: i.experience,
@@ -68,8 +68,8 @@ const GameLisnter = (io, userMiddleware) => {
             fireRate: i.fireRate,
             firePower: i.firePower,
             speed: i.speed,
-            energyPool: i.energyPool,
-            energy: i.energy
+            energyPool: Math.round(i.energyPool),
+            energy: Math.round(i.energy)
           }
           sendDataList.push(tank);
         });
@@ -87,14 +87,14 @@ const GameLisnter = (io, userMiddleware) => {
     socket.on(securityCode['addExperience'], async (req) => {
       try {
         const { socketID, nft_id, level } = decryptToJson(req.data);
-        let exp = (level + 1) * 10;
+        let exp = (level + 1) * 1000;
         var user = global.users[socketID];
-        await TanksController.upgrade({ _id: nft_id }, { experience: exp });
-        await TanksController.updateLevel({ _id: nft_id })
-        const UpdatedTank = await TanksController.find({ _id: nft_id })
+        await TanksController.upgrade({ id: nft_id }, { experience: exp });
+        await TanksController.updateLevel({ id: nft_id })
+        const UpdatedTank = await TanksController.find({ id: nft_id })
         socket.emit(securityCode["update-tank"], {
           data: encryptFromJson({
-            _id: UpdatedTank._id,
+            id: UpdatedTank.id,
             ownerNickName: user.name,
             classType: UpdatedTank.classType,
             experience: UpdatedTank.experience,
@@ -103,8 +103,8 @@ const GameLisnter = (io, userMiddleware) => {
             fireRate: UpdatedTank.fireRate,
             firePower: UpdatedTank.firePower,
             speed: UpdatedTank.speed,
-            energyPool: UpdatedTank.energyPool,
-            energy: UpdatedTank.energy
+            energyPool: Math.round(UpdatedTank.energyPool),
+            energy: Math.round(UpdatedTank.energy)
           })
         });
       } catch (err) {
@@ -116,12 +116,12 @@ const GameLisnter = (io, userMiddleware) => {
       try {
         const { socketID, nft_id, level } = decryptToJson(req.data);
         var user = global.users[socketID];
-        const tank = await TanksController.updateEnergy({ owner: user.address.toUpperCase(), _id: nft_id });
-        await TanksController.upgrade({ owner: user.address.toUpperCase(), _id: nft_id }, { energy: -1 * tank.health });
-        const UpdatedTank = await TanksController.find({ owner: user.address.toUpperCase(), _id: nft_id })
+        const tank = await TanksController.updateEnergy({ id: nft_id });
+        await TanksController.upgrade({ id: nft_id }, { energy: -1 * tank.health });
+        const UpdatedTank = await TanksController.find({ id: nft_id })
         socket.emit(securityCode["killed"], {
           data: encryptFromJson({
-            _id: UpdatedTank._id,
+            id: UpdatedTank.id,
             ownerNickName: user.name,
             classType: UpdatedTank.classType,
             experience: UpdatedTank.experience,
@@ -130,8 +130,8 @@ const GameLisnter = (io, userMiddleware) => {
             fireRate: UpdatedTank.fireRate,
             firePower: UpdatedTank.firePower,
             speed: UpdatedTank.speed,
-            energyPool: UpdatedTank.energyPool,
-            energy: UpdatedTank.energy
+            energyPool: Math.round(UpdatedTank.energyPool),
+            energy: Math.round(UpdatedTank.energy)
           })
         });
       } catch (err) {

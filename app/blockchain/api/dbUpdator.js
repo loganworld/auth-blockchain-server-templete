@@ -7,6 +7,11 @@ const dbUpdator = async () => {
       console.log(`running a dbUpdator  every 30 second`);
       await TanksController.updateAllTankEnergy();
     });
+    
+    cron.schedule(`*/1 * *`, async () => {
+      console.log(`running a dbUpdator  every 30 second`);
+      await TanksController.updateAllTankEnergy();
+    });
   } catch (err) {
     console.log("blockchain/api/dbupdator", err.message)
   }

@@ -39,7 +39,7 @@ const AuthLisnter = (io) => {
 
         global.users[socket.id] = userData;
 
-        const encryptedData = encryptFromJson({ name: userData.name, address: userData.address, email: userData.email });
+        const encryptedData = encryptFromJson({ name: userData.name, address: userData.address, email: userData.email, avata_url: userData.image, merit: userData.merit });
         socket.emit(securityCode['loginSuccess'], { data: encryptedData });
       } catch (err) {
         console.error("Auth/logIn : ", err.message);

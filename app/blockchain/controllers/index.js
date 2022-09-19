@@ -108,6 +108,7 @@ const TanksController = {
     newEnergy = newEnergy > maxEnergy ? maxEnergy : newEnergy;
     tank.energy = Math.round(newEnergy);
     await tank.save();
+    return tank
   },
   // update all tank energy
   updateAllTankEnergy: async () => {

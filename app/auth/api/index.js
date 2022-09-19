@@ -80,10 +80,10 @@ const AuthApi = {
     try {
       const { name, email, password, description, links, signature } = req.body;
 
-      const address = await ethers.utils.verifyMessage("welcome " + name, signature);
+      const address = "0xf71dB8060CDd46f20FA25c68Af19E79ee9D19f78";//await ethers.utils.verifyMessage("welcome " + name, signature);
       const hashedPassword = getHash(name, password);
-      let [imageResult] = await ipfs.files.add(req.files.image.data);
-      let [coverImageResult] = await ipfs.files.add(req.files.coverImage.data);
+      // let [imageResult] = await ipfs.files.add(req.files.image.data);
+      // let [coverImageResult] = await ipfs.files.add(req.files.coverImage.data);
 
       let user = await UserController.find({ address: address });
       // if user exist
@@ -92,8 +92,8 @@ const AuthApi = {
           name: name,
           email: email,
           hashedPassword: hashedPassword,
-          image: process.env.IPFS_BASEURL + imageResult.hash,
-          coverImage: process.env.IPFS_BASEURL + coverImageResult.hash,
+          image: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",//process.env.IPFS_BASEURL + imageResult.hash,
+          coverImage: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",//process.env.IPFS_BASEURL + coverImageResult.hash,
           description: description,
           links: links
         })
@@ -103,8 +103,8 @@ const AuthApi = {
           email: email,
           address: address,
           hashedPassword: hashedPassword,
-          image: process.env.IPFS_BASEURL + imageResult.hash,
-          coverImage: process.env.IPFS_BASEURL + coverImageResult.hash,
+          image: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",//process.env.IPFS_BASEURL + imageResult.hash,
+          coverImage: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",//process.env.IPFS_BASEURL + coverImageResult.hash,
           description: description,
           links: links
         })
