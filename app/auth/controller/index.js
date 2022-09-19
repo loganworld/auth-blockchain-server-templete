@@ -5,11 +5,20 @@ const UserSchema = require("./models");
 const UserController = {
   /**
    * create user data to db
-   * @param {name, email, hashedPassword, address} props 
-   * @returns 
+   * @param {name, email, hashedPassword, address} props
+   * @returns
    */
   create: async (props) => {
-    const { name, email, address, hashedPassword, image, coverImage, description, links } = props
+    const {
+      name,
+      email,
+      address,
+      hashedPassword,
+      image,
+      coverImage,
+      description,
+      links,
+    } = props;
     // valid check
     var user = await UserSchema.findOne({
       $or: [{ name: name }, { email: email }, { address: address }],
@@ -23,8 +32,9 @@ const UserController = {
       password: hashedPassword,
       image: image,
       coverImage: coverImage,
+      merit: 0,
       description: description,
-      links: links
+      links: links,
     });
 
     let userData = await newUser.save();
@@ -49,4 +59,4 @@ const UserController = {
   }
 }
 
-module.exports = UserController
+module.exports = UserController;

@@ -24,6 +24,7 @@
         "ethers": "^5.5.2",
         "ethers-multicall": "^0.2.3",
         "express": "^4.17.2",
+        "express-fileupload": "^1.4.0",
         "http": "0.0.1-security",
         "ipfs-api": "^26.1.2",
         "jsonwebtoken": "^8.5.1",

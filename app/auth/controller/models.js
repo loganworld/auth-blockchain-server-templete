@@ -3,38 +3,49 @@
 
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+
+const linkSchema = new Schema({
+    type: {
+        type: String,
+    },
+    href: {
+        type: String,
+    },
+});
 // Create Schema
 const UserBasicSchema = new Schema({
-  user_id: {
-    type: Schema.Types.ObjectId,
-  },
-  name: {
-    type: String,
-  },
-  email: {
-    type: String,
-  },
-  password: {
-    type: String,
-  },
-  address: {
-    type: String,
-  },
-  image: {
-    type: String,
-  },
-  coverImage: {
-    type: String,
-  },
-  links: [{ type: String }],
-  merit: {
-    type: Number
-  },
-  followers: [{ type: String }],
+    user_id: {
+        type: Schema.Types.ObjectId,
+    },
+    name: {
+        type: String,
+    },
+    email: {
+        type: String,
+    },
+    password: {
+        type: String,
+    },
+    address: {
+        type: String,
+    },
+    description: {
+        type: String,
+    },
+    image: {
+        type: String,
+    },
+    coverImage: {
+        type: String,
+    },
+    links: [linkSchema],
+    merit: {
+        type: Number,
+    },
+    followers: [{ type: String }],
 });
 
+// const UserSchema = new Schema();
+// UserSchema.add(UserBasicSchema);
 
-const UserSchema = new Schema();
-UserSchema.add(UserBasicSchema);
-
-module.exports = Users = mongoose.model("users", UserSchema);
+module.exports = Users = mongoose.model("users", UserBasicSchema);

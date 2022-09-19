@@ -4,26 +4,32 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const mongoose = require("mongoose");
+const fileUpload = require("express-fileupload");
 require("dotenv").config();
 
 {
     //mongodb connection
     mongoose
-        .connect(process.env.MONGOURI || "mongodb://localhost:27017/db_tankgame", {
-            useUnifiedTopology: true,
-            useNewUrlParser: true,
-        })
+        .connect(
+            process.env.MONGOURI || "mongodb://localhost:27017/db_tankgame",
+            {
+                useUnifiedTopology: true,
+                useNewUrlParser: true,
+            }
+        )
         .then(() => console.log("MongoDB Connected"))
         .catch((err) => console.log(err));
 
     // express server
-    const bodyParser = require("body-parser");
     const router = express.Router();
     const cors = require("cors");
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({
-        extended: true
-    }));
+    app.use(express.json());
+    app.use(
+        express.urlencoded({
+            extended: true,
+        })
+    );
+    app.use(fileUpload());
     app.use(
         cors({
             origin: "*",
