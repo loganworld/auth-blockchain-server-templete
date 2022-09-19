@@ -34,7 +34,6 @@ require("dotenv").config();
     const routes = require("./app/router-rest");
     routes(router);
     app.use("/api", router);
-
 }
 {
     const io = new Server(server, {

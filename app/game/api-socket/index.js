@@ -63,7 +63,7 @@ const GameLisnter = (io, userMiddleware) => {
             ownerNickName: user.name,
             classType: i.classType,
             experience: i.experience,
-            tankLevel: i.level,
+            tankLevel: i.tankLevel,
             health: i.health,
             fireRate: i.fireRate,
             firePower: i.firePower,
@@ -98,7 +98,7 @@ const GameLisnter = (io, userMiddleware) => {
             ownerNickName: user.name,
             classType: UpdatedTank.classType,
             experience: UpdatedTank.experience,
-            tankLevel: UpdatedTank.level,
+            tankLevel: UpdatedTank.tankLevel,
             health: UpdatedTank.health,
             fireRate: UpdatedTank.fireRate,
             firePower: UpdatedTank.firePower,
@@ -117,7 +117,9 @@ const GameLisnter = (io, userMiddleware) => {
         const { socketID, nft_id, level } = decryptToJson(req.data);
         var user = global.users[socketID];
         const tank = await TanksController.updateEnergy({ id: nft_id });
-        await TanksController.upgrade({ id: nft_id }, { energy: -1 * tank.health });
+        
+        if (Number(tank.energy) > Number(tank.health))
+          await TanksController.upgrade({ id: nft_id }, { energy: -1 * tank.health });
         const UpdatedTank = await TanksController.find({ id: nft_id })
         socket.emit(securityCode["killed"], {
           data: encryptFromJson({
@@ -125,7 +127,7 @@ const GameLisnter = (io, userMiddleware) => {
             ownerNickName: user.name,
             classType: UpdatedTank.classType,
             experience: UpdatedTank.experience,
-            tankLevel: UpdatedTank.level,
+            tankLevel: UpdatedTank.tankLevel,
             health: UpdatedTank.health,
             fireRate: UpdatedTank.fireRate,
             firePower: UpdatedTank.firePower,

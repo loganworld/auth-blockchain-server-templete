@@ -38,6 +38,9 @@ const UserController = {
   find: async (filter) => {
     return await UserSchema.findOne(filter);
   },
+  findsWithSort: async (filter, sort) => {
+    return await UserSchema.find(filter).sort(sort);
+  },
   update: async (filter, newData) => {
     return await UserSchema.updateOne(filter, { $set: newData })
   },

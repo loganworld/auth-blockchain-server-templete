@@ -58,9 +58,15 @@ const AdminSettingSchema = new Schema({
   value: String
 })
 
+const TransactionHistorySchema = new Schema({
+  type: String,
+  value: String
+})
+
 const BlockNumbers = mongoose.model("BlockNumbers", BlockNumber);
 const NFTTanks = mongoose.model("NFTTanks", NFTTankschema);
 const Classes = mongoose.model("Classes", ClassSchema);
 const AdminSetting = mongoose.model("AdminSetting", AdminSettingSchema);
+const TransactionHistory = mongoose.model("TransactionHistory", TransactionHistorySchema);
 
-module.exports = { BlockNumbers, NFTTanks, Classes, AdminSetting }
+module.exports = { BlockNumbers, NFTTanks, Classes, AdminSetting, TransactionHistory }

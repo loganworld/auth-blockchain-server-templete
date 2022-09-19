@@ -1,8 +1,9 @@
 // by Logan <https://github.com/loganworld>
 // at 19/08/2022
 
-const { BlockNumbers, NFTTanks, Classes } = require("./models");
+const { BlockNumbers, NFTTanks, Classes, AdminSetting, TransactionHistory } = require("./models");
 const ethers = require("ethers");
+const { AdminWallet } = require("../contracts");
 
 const BlockNumController = {
   create: async (props) => {
@@ -146,12 +147,11 @@ const TanksController = {
   getUpgradeSign: async (filter) => {
     var tank = await NFTTanks.findOne(filter);
     var availableLevel = Math.floor(tank.tankLevel);
-    var signer = new ethers.Wallet(process.env.ADMINWALLET);
     let messageHash = ethers.utils.solidityKeccak256(
       ["uint", "uint"],
       [tank.id, availableLevel]
     );
-    let signature = await signer.signMessage(
+    let signature = await AdminWallet.signMessage(
       ethers.utils.arrayify(messageHash)
     );
     return { availableLevel, signature };
@@ -218,5 +218,50 @@ const ClassesController = {
   }
 };
 
-module.exports = { BlockNumController, TanksController, ClassesController };
+const AdminSettingController = {
+  create: async ({ type, value }) => {
+    let res = await AdminSetting.findOne({ type: type });
+    if (!res) {
+      res = new AdminSetting({ type: type, value: value })
+      await res.save();
+    } else {
+      res.value = value;
+      await res.save();
+    }
+    return res;
+  },
+  find: async (filter) => {
+    return await AdminSetting.findOne(filter);
+  },
+  finds: async (filter) => {
+    return await AdminSetting.find(filter);
+  },
+  update: async (filter, newData) => {
+    return await AdminSetting.updateOne(
+      filter,
+      { $set: newData }
+    );
+  },
+};
+
+const TxHistoryController = {
+  create: async ({ type, value }) => {
+    let res = new TransactionHistory({ type: type, value: value })
+    await res.save();
+    return res;
+  },
+  find: async (filter) => {
+    return await TransactionHistory.findOne(filter);
+  },
+  finds: async (filter) => {
+    return await TransactionHistory.find(filter);
+  },
+  update: async (filter, newData) => {
+    return await TransactionHistory.updateOne(
+      filter,
+      { $set: newData }
+    );
+  },
+}
+module.exports = { BlockNumController, TanksController, ClassesController, AdminSettingController, TxHistoryController, TxHistoryController };
 
