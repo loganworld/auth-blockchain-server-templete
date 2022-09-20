@@ -131,7 +131,7 @@ const AuthApi = {
             links: JSON.parse(links),
           }
         );
-      } else {a
+      } else {
         if (checkUser) {
           throw new Error("Name is Exist");
         }
