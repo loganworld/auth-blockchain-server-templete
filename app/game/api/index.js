@@ -133,9 +133,9 @@ const gameApi = {
       const { id, signature } = req.body;
       const address = await ethers.utils.verifyMessage(id, signature);
       var tank = await TanksController.find({ id: id });
-      if (!tank || tank.borrower != "") throw new Error("invalid tank id");
-
+      
       if (address.toUpperCase() != tank.owner.toUpperCase()) {
+        if (!tank || tank.borrower != "") throw new Error("invalid tank id");
         // user action - return borrowed tanks
         let userTanks = await TanksController.finds({ borrower: address.toUpperCase() });
         let borrowTanks = userTanks.filter(tank => tank.owner != address.toUpperCase());

@@ -87,7 +87,7 @@ const GameLisnter = (io, userMiddleware) => {
     socket.on(securityCode['addExperience'], async (req) => {
       try {
         const { socketID, nft_id, level } = decryptToJson(req.data);
-        let exp = (level + 1) * 1000;
+        let exp = (level + 1) * 100;
         var user = global.users[socketID];
         await TanksController.upgrade({ id: nft_id }, { experience: exp });
         await TanksController.updateLevel({ id: nft_id })
@@ -117,8 +117,8 @@ const GameLisnter = (io, userMiddleware) => {
         const { socketID, nft_id, level } = decryptToJson(req.data);
         var user = global.users[socketID];
         const tank = await TanksController.updateEnergy({ id: nft_id });
-        
-        if (Number(tank.energy) > Number(tank.health))
+
+        if (Number(tank.energy) >= Number(tank.health))
           await TanksController.upgrade({ id: nft_id }, { energy: -1 * tank.health });
         const UpdatedTank = await TanksController.find({ id: nft_id })
         socket.emit(securityCode["killed"], {

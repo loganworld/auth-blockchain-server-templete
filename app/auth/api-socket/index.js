@@ -30,6 +30,7 @@ const AuthLisnter = (io) => {
       console.log('socket disconnected: ' + socket.id);
     });
     socket.on(securityCode['login'], async (req) => {
+      console.log('socket login: ', socket.id);
       try {
         const { name, password } = decryptToJson(req.data);
         const hashedPassword = getHash(name, password);
@@ -40,6 +41,8 @@ const AuthLisnter = (io) => {
         global.users[socket.id] = userData;
 
         const encryptedData = encryptFromJson({ name: userData.name, address: userData.address, email: userData.email, avata_url: userData.image, merit: userData.merit });
+
+        console.log('socket logined: ', socket.id);
         socket.emit(securityCode['loginSuccess'], { data: encryptedData });
       } catch (err) {
         console.error("Auth/logIn : ", err.message);
