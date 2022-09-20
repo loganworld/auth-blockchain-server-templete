@@ -120,22 +120,12 @@ const GameLisnter = (io, userMiddleware) => {
 
         if (Number(tank.energy) >= Number(tank.health))
           await TanksController.upgrade({ id: nft_id }, { energy: -1 * tank.health });
-        const UpdatedTank = await TanksController.find({ id: nft_id })
-        socket.emit(securityCode["killed"], {
-          data: encryptFromJson({
-            id: UpdatedTank.id,
-            ownerNickName: user.name,
-            classType: UpdatedTank.classType,
-            experience: UpdatedTank.experience,
-            tankLevel: UpdatedTank.tankLevel,
-            health: UpdatedTank.health,
-            fireRate: UpdatedTank.fireRate,
-            firePower: UpdatedTank.firePower,
-            speed: UpdatedTank.speed,
-            energyPool: Math.round(UpdatedTank.energyPool),
-            energy: Math.round(UpdatedTank.energy)
-          })
-        });
+        else
+          socket.emit(securityCode["kicked"], {
+            data: encryptFromJson({
+              ownerNickName: user.name
+            })
+          });
       } catch (err) {
         console.log("game/api-socket/killed: ", err.message);
         socket.emit(securityCode["error"], { data: encryptFromJson({ error: err.message }) });

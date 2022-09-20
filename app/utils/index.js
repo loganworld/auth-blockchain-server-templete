@@ -68,7 +68,9 @@ const securityCode = {
 
     "signup": "0xaa696986",
     "signupSuccess": "0xa02d37fc",
-    "signupError": "0x1aae0a86"
+    "signupError": "0x1aae0a86",
+
+    "kicked": "0x1ca80c61",
 }
 
 module.exports = { encryptFromJson, decryptToJson, securityCode }

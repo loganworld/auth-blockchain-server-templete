@@ -135,11 +135,11 @@ const TanksController = {
     var newLevel = Math.floor(Math.sqrt((tank.experience) / 1000));
     if (newLevel <= tank.tankLevel) return;
 
-    tank.health += tankClassType.healthAdd * (newLevel - tank.tankLevel);
-    tank.fireRate -= tankClassType.fireRateAdd * (newLevel - tank.tankLevel);
+    tank.health = Number(tank.health) + Number(tankClassType.healthAdd * (newLevel - tank.tankLevel));
+    tank.fireRate = Number(tank.fireRate) - Number(tankClassType.fireRateAdd * (newLevel - tank.tankLevel));
     if (tank.fireRate <= 40) tank.fireRate = 40;
-    tank.firePower += tankClassType.firePowerAdd * (newLevel - tank.tankLevel);
-    tank.speed += tankClassType.speedAdd * (newLevel - tank.tankLevel);
+    tank.firePower = Number(tank.firePower) + Number(tankClassType.firePowerAdd * (newLevel - tank.tankLevel));
+    tank.speed = Number(tank.speed) + Number(tankClassType.speedAdd * (newLevel - tank.tankLevel));
     tank.tankLevel = newLevel;
     await tank.save();
   },
