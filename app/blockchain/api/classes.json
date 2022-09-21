@@ -10,7 +10,7 @@
     "speed": 600,
     "healthAdd": 10,
     "fireRateAdd": 5,
-    "firePowerAdd": 2,
+    "firePowerAdd": 200,
     "speedAdd": 20,
     "price": 1000
   },
@@ -25,7 +25,7 @@
     "speed": 600,
     "healthAdd": 10,
     "fireRateAdd": 10,
-    "firePowerAdd": 1,
+    "firePowerAdd": 100,
     "speedAdd": 20,
     "price": 1200
   },
@@ -40,7 +40,7 @@
     "speed": 600,
     "healthAdd": 10,
     "fireRateAdd": 5,
-    "firePowerAdd": 2,
+    "firePowerAdd": 200,
     "speedAdd": 20,
     "price": 1400
   },
@@ -55,7 +55,7 @@
     "speed": 600,
     "healthAdd": 10,
     "fireRateAdd": 5,
-    "firePowerAdd": 2,
+    "firePowerAdd": 200,
     "speedAdd": 20,
     "price": 1600
   },
@@ -70,7 +70,7 @@
     "speed": 600,
     "healthAdd": 10,
     "fireRateAdd": 4,
-    "firePowerAdd": 5,
+    "firePowerAdd": 500,
     "speedAdd": 20,
     "price": 2000
   }
