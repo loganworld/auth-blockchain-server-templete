@@ -1,6 +1,7 @@
 // by Logan <https://github.com/loganworld>
 // at 19/08/2022
 
+const UserController = require("../../auth/controller");
 const { TanksController } = require("../../blockchain/controllers");
 const { encryptFromJson, decryptToJson, securityCode } = require("../../utils");
 
@@ -29,7 +30,6 @@ const GameLisnter = (io, userMiddleware) => {
     socket.on(securityCode['getEnegy'], async (req) => {
       try {
         const { socketID, nft_id, level } = decryptToJson(req.data);
-        var user = global.users[socketID];
         const tank = await TanksController.find({ id: nft_id })
         socket.emit(securityCode["update-tank-energy"], {
           data: encryptFromJson({
@@ -89,6 +89,9 @@ const GameLisnter = (io, userMiddleware) => {
         const { socketID, nft_id, level } = decryptToJson(req.data);
         let exp = (level + 1) * 100;
         var user = global.users[socketID];
+        await UserController.update({ address: user.address }, { merit: Number(merit) + exp });
+        global.users = await UserController.find({ address: user.address });
+
         await TanksController.upgrade({ id: nft_id }, { experience: exp });
         await TanksController.updateLevel({ id: nft_id })
         const UpdatedTank = await TanksController.find({ id: nft_id })

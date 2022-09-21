@@ -133,7 +133,7 @@ const gameApi = {
       const { id, signature } = req.body;
       const address = await ethers.utils.verifyMessage(id, signature);
       var tank = await TanksController.find({ id: id });
-      
+
       if (address.toUpperCase() != tank.owner.toUpperCase()) {
         if (!tank || tank.borrower != "") throw new Error("invalid tank id");
         // user action - return borrowed tanks
@@ -198,6 +198,34 @@ const gameApi = {
       }
 
       await TanksController.update({ id: id }, { followers: tank.followers });
+      var tank = await TanksController.find({ id: id });
+      res.status(200).json({ status: true, data: tank });
+    } catch (err) {
+      console.error("gameApi/getUpgradeSign : ", err.message);
+      res.status(500).json({ error: err.message });
+    }
+  },
+  /**
+   * change tank name
+   * @param {id, newName, newDescription} req 
+   * @param {*} res 
+   */
+  updateName: async (req, res) => {
+    try {
+      const { id, newName, newDescription, signature } = req.body;
+      const address = await ethers.utils.verifyMessage(id, signature);
+      var tank = await TanksController.find({ id: id });
+      if (!tank) throw new Error("invalid tank id");
+
+      if (tank.owner.toUpperCase() != address.toUpperCase()) {
+        throw new Error("Permission Denied!")
+      }
+
+      var tankWithSameName = await TanksController.find({ name: newName });
+      if (tankWithSameName && tankWithSameName.id != tank.id)
+        throw new Error("Name is exist");
+
+      await TanksController.update({ id: id }, { name: newName, description: newDescription });
       var tank = await TanksController.find({ id: id });
       res.status(200).json({ status: true, data: tank });
     } catch (err) {
