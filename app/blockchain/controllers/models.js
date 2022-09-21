@@ -19,7 +19,9 @@ const NFTSchema = new Schema({
 const TankSchema = new Schema({
   classType: { type: Number, required: true },        // tank class type
   energy: { type: Number, default: 0 },               // remained energy for tank
+  maxEnergy: { type: Number, default: 0 },            // max energy size
   energyPool: { type: Number, default: 0 },           // energy pool size
+  maxEnergyPool: { type: Number, default: 0 },        // max energy pool size
   experience: { type: Number, default: 0 },           // tank experience
   tankLevel: { type: Number, default: 0 },            // current level
 

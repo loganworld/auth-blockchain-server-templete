@@ -62,6 +62,7 @@ const TanksController = {
         description,
         classType,
         energy: health * 10,
+        maxEnergy: health * 10,
         experience: 0,
         health,
         fireRate,

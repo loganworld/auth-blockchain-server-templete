@@ -39,7 +39,7 @@ const blockchainHandler = async () => {
           owner: String(txData.to).toUpperCase(),
           classType: tankType.id,
 
-          name: tankType.name,
+          name: "tank" + txData.tokenId,
           image: tankType.image,
           description: tankType.description,
           health: tankType.health,
@@ -64,7 +64,10 @@ const blockchainHandler = async () => {
         tokenId: fromBigNum(tx.args.tokenId, 0),
         newLevel: Number(tx.args.level)
       };
-      await TanksController.update({ id: txData.tokenId }, { level: txData.newLevel });
+      await TanksController.update({ id: txData.tokenId }, {
+        level: txData.newLevel,
+        maxEnergyPool: txData.newLevel * 1000
+      });
     }
     /**
      * handle stake and unstake
@@ -81,7 +84,12 @@ const blockchainHandler = async () => {
       };
       await TanksController.updateEnergy({ id: txData.tokenId });
       var totalStake = await EnergyPool.supplies(tx.args.id);
-      await TanksController.update({ id: txData.tokenId }, { energyPool: Number(fromBigNum(totalStake, 18)) });
+      await TanksController.update(
+        { id: txData.tokenId },
+        {
+          energyPool: Number(fromBigNum(totalStake, 18)),
+          maxEnergy: Number(fromBigNum(totalStake, 18)) * 0.2 + 1000,
+        });
       await TanksController.updateEnergy({ id: txData.tokenId });
     }
 

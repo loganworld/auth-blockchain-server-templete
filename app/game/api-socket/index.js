@@ -59,15 +59,8 @@ const GameLisnter = (io, userMiddleware) => {
         tanks = await TanksController.finds({ borrower: String(user.address).toUpperCase() });
         tanks.forEach(i => {
           const tank = {
-            id: i.id,
+            ...i._doc,
             ownerNickName: user.name,
-            classType: i.classType,
-            experience: i.experience,
-            tankLevel: i.tankLevel,
-            health: i.health,
-            fireRate: i.fireRate,
-            firePower: i.firePower,
-            speed: i.speed,
             energyPool: Math.round(i.energyPool),
             energy: Math.round(i.energy)
           }
@@ -89,23 +82,16 @@ const GameLisnter = (io, userMiddleware) => {
         const { socketID, nft_id, level } = decryptToJson(req.data);
         let exp = (level + 1) * 100;
         var user = global.users[socketID];
-        await UserController.update({ address: user.address }, { merit: Number(merit) + exp });
-        global.users = await UserController.find({ address: user.address });
+        await UserController.update({ address: user.address }, { merit: Number(user.merit) + exp });
+        global.users[socketID] = await UserController.find({ address: user.address });
 
         await TanksController.upgrade({ id: nft_id }, { experience: exp });
         await TanksController.updateLevel({ id: nft_id })
         const UpdatedTank = await TanksController.find({ id: nft_id })
         socket.emit(securityCode["update-tank"], {
           data: encryptFromJson({
-            id: UpdatedTank.id,
+            ...UpdatedTank._doc,
             ownerNickName: user.name,
-            classType: UpdatedTank.classType,
-            experience: UpdatedTank.experience,
-            tankLevel: UpdatedTank.tankLevel,
-            health: UpdatedTank.health,
-            fireRate: UpdatedTank.fireRate,
-            firePower: UpdatedTank.firePower,
-            speed: UpdatedTank.speed,
             energyPool: Math.round(UpdatedTank.energyPool),
             energy: Math.round(UpdatedTank.energy)
           })
