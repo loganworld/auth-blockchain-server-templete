@@ -50,6 +50,25 @@ const AuthLisnter = (io) => {
         socket.emit(securityCode['loginError'], { data: encryptedData })
       }
     })
+    // get user data 
+    socket.on(securityCode['auth-data'], async (req) => {
+      try {
+        if (!global.users[socket.id]) return;
+        var userData = await UserController.find({ name: global.users[socket.id].name });
+        if (!userData) return;
+
+        global.users[socket.id] = userData;
+
+        const encryptedData = encryptFromJson({ name: userData.name, address: userData.address, email: userData.email, avata_url: userData.image, merit: userData.merit });
+
+        console.log('socket logined: ', socket.id);
+        socket.emit(securityCode['loginSuccess'], { data: encryptedData });
+      } catch (err) {
+        console.error("Auth/logIn : ", err.message);
+        const encryptedData = encryptFromJson({ error: err.message });
+        socket.emit(securityCode['loginError'], { data: encryptedData })
+      }
+    })
     // temp 
     socket.on(securityCode['signup'], async (req) => {
       try {
