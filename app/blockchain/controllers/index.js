@@ -133,7 +133,7 @@ const TanksController = {
     var tank = await NFTTanks.findOne(filter);
     var tankClassType = await Classes.findOne({ id: tank.classType });
     //update level
-    var newLevel = Math.floor(Math.sqrt((tank.experience) / 2000));
+    var newLevel = Math.floor(Math.sqrt((tank.experience) / 1000));
     if (newLevel <= tank.tankLevel) return;
 
     tank.health = Number(tank.health) + Number(tankClassType.healthAdd * (newLevel - tank.tankLevel));
