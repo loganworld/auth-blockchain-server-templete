@@ -104,9 +104,9 @@ const TanksController = {
     var now = Date.now();
     var from = new Date(tank.updatedAt);
     var duration = (now - from) / 1000;
-    var chargedEnergy = duration * (tank.energyPool + 1000) / 24 / 3600; // duration * (energyPool + init recover power)*changeRate
+    var chargedEnergy = duration * (tank.energyPool * 0.2 + 1000) / 24 / 3600; // duration * (energyPool + init recover power)*changeRate
     var newEnergy = tank.energy + chargedEnergy;
-    var maxEnergy = tank.energyPool + 1000;
+    var maxEnergy = tank.energyPool * 0.2 + 1000;
     newEnergy = newEnergy > maxEnergy ? maxEnergy : newEnergy;
     tank.energy = Math.round(newEnergy);
     await tank.save();
@@ -120,9 +120,9 @@ const TanksController = {
       var now = Date.now();
       var from = new Date(tank.updatedAt);
       var duration = (now - from) / 1000;
-      var chargedEnergy = duration * (tank.energyPool + 1000) / 24 / 3600; // duration * (energyPool + init recover power)*changeRate
+      var chargedEnergy = duration * (tank.energyPool * 0.2 + 1000) / 24 / 3600; // duration * (energyPool + init recover power)*changeRate
       var newEnergy = tank.energy + chargedEnergy;
-      var maxEnergy = tank.energyPool + 1000;
+      var maxEnergy = tank.energyPool * 0.2 + 1000;
       newEnergy = newEnergy > maxEnergy ? maxEnergy : newEnergy;
       tank.energy = Math.round(newEnergy);
       tank.save();
