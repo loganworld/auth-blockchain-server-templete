@@ -14,9 +14,9 @@ const multicallProvider = new Provider(provider, supportChainId);
 const AdminWallet = new ethers.Wallet(process.env.ADMINWALLET);
 
 // make contract objects
-const NFTTANK = new ethers.Contract(Addresses.NFTTANK, Abis.NFTTANK, provider);
+const NFTTANK = new ethers.Contract(Addresses.NFTTank, Abis.NFTTank, provider);
 const EnergyPool = new ethers.Contract(Addresses.EnergyPool, Abis.EnergyPool, provider);
-const TANKTOKEN = new ethers.Contract(Addresses.TANKTOKEN, Abis.TANKTOKEN, provider);
+const TANKTOKEN = new ethers.Contract(Addresses.TankToken, Abis.TankToken, provider);
 
 const RewardPool = new ethers.Contract(Addresses.RewardPool, Abis.RewardPool, AdminWallet);
 
