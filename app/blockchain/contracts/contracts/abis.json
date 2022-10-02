@@ -1,5 +1,5 @@
 {
-  "NFTTANK": [
+  "NFTTank": [
       {
           "inputs": [
               {
@@ -1400,7 +1400,7 @@
           "type": "function"
       }
   ],
-  "TANKTOKEN": [
+  "TankToken": [
       {
           "inputs": [
               {
