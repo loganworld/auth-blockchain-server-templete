@@ -61,6 +61,7 @@ const GameLisnter = (io, userMiddleware) => {
           const tank = {
             ...i._doc,
             ownerNickName: user.name,
+            maxEnergy: Math.round(i.maxEnergy),
             energyPool: Math.round(i.energyPool),
             energy: Math.round(i.energy)
           }
@@ -92,6 +93,7 @@ const GameLisnter = (io, userMiddleware) => {
           data: encryptFromJson({
             ...UpdatedTank._doc,
             ownerNickName: user.name,
+            maxEnergy: Math.round(UpdatedTank.maxEnergy),
             energyPool: Math.round(UpdatedTank.energyPool),
             energy: Math.round(UpdatedTank.energy)
           })
