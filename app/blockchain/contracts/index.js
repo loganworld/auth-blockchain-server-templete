@@ -11,7 +11,7 @@ const multicallAddress = process.env.MULTIADDRESS || "0x402C435EA85DFdA24181141D
 setMulticallAddress(4002, multicallAddress);
 const multicallProvider = new Provider(provider, supportChainId);
 
-const AdminWallet = new ethers.Wallet(process.env.ADMINWALLET);
+const AdminWallet = new ethers.Wallet(process.env.ADMINWALLET, provider);
 
 // make contract objects
 const NFTTANK = new ethers.Contract(Addresses.NFTTank, Abis.NFTTank, provider);
@@ -21,10 +21,10 @@ const TANKTOKEN = new ethers.Contract(Addresses.TankToken, Abis.TankToken, provi
 const RewardPool = new ethers.Contract(Addresses.RewardPool, Abis.RewardPool, AdminWallet);
 
 module.exports = {
-  provider, multicallProvider,
-  NFTTANK,
-  EnergyPool,
-  TANKTOKEN,
-  RewardPool,
-  AdminWallet
+    provider, multicallProvider,
+    NFTTANK,
+    EnergyPool,
+    TANKTOKEN,
+    RewardPool,
+    AdminWallet
 };
