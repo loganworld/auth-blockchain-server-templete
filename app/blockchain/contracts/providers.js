@@ -22,6 +22,8 @@ const providers = {
     4002: new ethers.providers.JsonRpcProvider(RPCS[4002]),
     1337: new ethers.providers.JsonRpcProvider(RPCS[1337]),
     31337: new ethers.providers.JsonRpcProvider(RPCS[31337]),
+    9000: new ethers.providers.JsonRpcProvider(RPCS[9000]),
+    9001: new ethers.providers.JsonRpcProvider(RPCS[9001]),
 };
 
 const provider = providers[supportChainId];
