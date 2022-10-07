@@ -40,7 +40,7 @@ const rewardHandler = async () => {
             console.log('blockchain/api/rewardHandler', err.message);
         }
     }
-    cron.schedule(`0 0 0 * * *`, rewardHandle);
+    cron.schedule(`0 0 0 * * *`, rewardHandle, { timezone: "Etc/GMT+0" });
 }
 
 const energyUpdateHandler = async () => {
