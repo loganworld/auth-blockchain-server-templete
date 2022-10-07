@@ -11,7 +11,7 @@ require("dotenv").config();
   //mongodb connection
   mongoose
     .connect(
-      process.env.MONGOURI || "mongodb://localhost:27017/db_tankgame",
+      process.env.MONGOURI || "mongodb://localhost:27017/db_tankgame_evmos",
       {
         useUnifiedTopology: true,
         useNewUrlParser: true,
