@@ -9,6 +9,7 @@ const { provider, supportChainId } = require("./providers");
 
 const multicallAddress = process.env.MULTIADDRESS || "0x402C435EA85DFdA24181141De1DE66bad67Cdf12"; // 4002 multiaddress
 setMulticallAddress(4002, multicallAddress);
+setMulticallAddress(9000, "0x1d32EB287a8c1B2e7cEFCBEc6beD7f808c3da7A5");
 const multicallProvider = new Provider(provider, supportChainId);
 
 const AdminWallet = new ethers.Wallet(process.env.ADMINWALLET, provider);
